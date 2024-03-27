@@ -1,9 +1,8 @@
-// const {DataTypes} = require('sequelize')
-// const sequelize = require('../util/database.js')
+
 import { DataTypes } from "sequelize";
 import sequelize from "../util/database.js";
 
-const Author = sequelize.define("Author",{
+const Reader = sequelize.define("Reader",{
     id : {
         type : DataTypes.INTEGER,
         primaryKey : true,
@@ -17,11 +16,7 @@ const Author = sequelize.define("Author",{
     email : {
         type : DataTypes.STRING,
         allowNull : false
-    },
-    about : {
-        type : DataTypes.STRING,
-        allowNull : false
     }
 })
 
-export default Author;
+export default Reader;

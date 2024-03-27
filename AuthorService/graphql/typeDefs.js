@@ -1,9 +1,8 @@
-const {gql} = require('apollo-server')
-
-const typeDef = gql`
+const typeDefs = `#graphql
     type Author {
         id : ID!
         name : String!
+        email : String!
         about : String!
     }
     type Query {
@@ -16,7 +15,10 @@ const typeDef = gql`
     }
     input addAuthorInput{
         name : String!
+        email : String!
         about : String!
     }
 
 `
+
+export default typeDefs;
