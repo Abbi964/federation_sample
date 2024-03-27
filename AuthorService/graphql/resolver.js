@@ -70,8 +70,21 @@ const resolvers = {
     Author: {
         __resolveReference(author, { Author }) {
           return Author.findByPk(author.id);
-        },
-      },
+        }
+    },
+    Book : {
+        // getting author of the book-----------------------------
+        async author(parent){
+            try {
+                console.log(parent)
+                let author = await Author.findByPk(parent.authorId) 
+                return author
+            } catch (error) {
+                console.log(error);
+                return error
+            }
+        }
+    }
 }
 
 export default resolvers;

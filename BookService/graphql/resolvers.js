@@ -54,7 +54,6 @@ const resolvers = {
         async addBook(_,args){
             try {
                 let bookObj = args.book;
-                console.log("book obj ----------->",bookObj)
                 let [book,created] = await Book.findOrCreate({
                     where : {name : bookObj.name },
                     defaults : {...bookObj,quantity : 1}
@@ -141,6 +140,9 @@ const resolvers = {
         }
     },
     Book : {
+        __resolveReference(book, { Book }) {
+            return Book.findByPk(book.id);
+        },
         // getting readers of a book-----------------------
         async readers(parent,args){
             try {
@@ -153,15 +155,6 @@ const resolvers = {
                 return error
             }
         },
-        // getting author of the book-------------------
-        // async author(parent){
-        //     try {
-        //        let author = await Author.findOne({where : {}})
-        //     } catch (error) {
-        //         console.log(error);
-        //         return error
-        //     }
-        // }
 
     },
     Reader : {
@@ -172,6 +165,18 @@ const resolvers = {
 
                 let books = await reader.getBooks();
                 return books;
+            } catch (error) {
+                console.log(error)
+                return error
+            }
+        }
+    },
+    Author : {
+        //-------- getting books written by author
+        async books(parent){
+            try {
+                let books = await Book.findAll({where : {authorId : parent.id}})
+                return books
             } catch (error) {
                 console.log(error)
                 return error

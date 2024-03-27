@@ -2,20 +2,23 @@ import gql from 'graphql-tag'
 
 const typeDefs = gql`
     extend schema 
-        @link(url: "https://specs.apollo.dev/federation/v2.5",
+        @link(url: "https://specs.apollo.dev/federation/v2.0",
         import: ["@key"])
 
-    type Book @key(fields : "autherId"){
+    extend type Author @key(fields : "id") {
+        id : ID! 
+        books : [Book]!
+    }
+    type Book @key(fields : "id authorId"){
         id : ID!
         name : String!
         price : Float!
         description : String!
         quantity : Int!
         authorId : ID!
-        readers : [Reader]!
-        # author : Author! 
+        readers : [Reader] 
     }
-    type Reader @key(fields : "id") {
+    type Reader {
         id : ID!
         name : String!
         email : String!

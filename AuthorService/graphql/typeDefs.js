@@ -5,12 +5,16 @@ const typeDefs = gql`
         @link(url: "https://specs.apollo.dev/federation/v2.5",
         import: ["@key"])
 
+    type Book @key(fields : "id authorId"){
+        id : ID!
+        authorId : ID!
+        author : Author 
+    }
     type Author @key(fields : "id") {
         id : ID!
         name : String!
         email : String!
         about : String!
-        # books : [Book]!
     }
     type Query {
         authors : [Author]
