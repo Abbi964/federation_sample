@@ -86,11 +86,12 @@ const resolvers = {
             }
         },
         //----------- Adding a Reader ------------------------
-        async addReader(_,{reader}){
+        async addReader(_,args){
             try {
+                let readerObj = args.reader
                 let [reader,created] = await Reader.findOrCreate({
-                    where : {email : reader.email },
-                    defaults : reader
+                    where : {email : readerObj.email },
+                    defaults : readerObj
                 })
 
                 if(created){
@@ -133,6 +134,44 @@ const resolvers = {
                 else{
                     throw new Error("Book with this ID does not exists")
                 }
+            } catch (error) {
+                console.log(error)
+                return error
+            }
+        }
+    },
+    Book : {
+        // getting readers of a book-----------------------
+        async readers(parent,args){
+            try {
+                let book = await Book.findByPk(parent.id)
+                let readers = await book.getReaders()
+
+                return readers
+            } catch (error) {
+                console.log(error)
+                return error
+            }
+        },
+        // getting author of the book-------------------
+        // async author(parent){
+        //     try {
+        //        let author = await Author.findOne({where : {}})
+        //     } catch (error) {
+        //         console.log(error);
+        //         return error
+        //     }
+        // }
+
+    },
+    Reader : {
+        //------ Getting books of reader------------------
+        async books(parent,args){
+            try {
+                let reader = await Reader.findByPk(parent.id);
+
+                let books = await reader.getBooks();
+                return books;
             } catch (error) {
                 console.log(error)
                 return error

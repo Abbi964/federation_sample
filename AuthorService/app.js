@@ -2,13 +2,13 @@ import 'dotenv/config'
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer} from "@apollo/server/standalone";
+import {buildSubgraphSchema} from '@apollo/subgraph'
 import typeDefs from './graphql/typeDefs.js';
 import resolvers from './graphql/resolver.js';
 import sequelize from './util/database.js';
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema : buildSubgraphSchema({typeDefs,resolvers})
 })
 
 sequelize.sync()

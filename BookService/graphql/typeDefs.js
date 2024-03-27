@@ -1,16 +1,25 @@
-const typeDefs = `#graphql
-    type Book {
+import gql from 'graphql-tag'
+
+const typeDefs = gql`
+    extend schema 
+        @link(url: "https://specs.apollo.dev/federation/v2.5",
+        import: ["@key"])
+
+    type Book @key(fields : "autherId"){
         id : ID!
         name : String!
         price : Float!
         description : String!
         quantity : Int!
         authorId : ID!
+        readers : [Reader]!
+        # author : Author! 
     }
-    type Reader {
+    type Reader @key(fields : "id") {
         id : ID!
         name : String!
         email : String!
+        books : [Book]!
     }
     type Query {
         books : [Book]

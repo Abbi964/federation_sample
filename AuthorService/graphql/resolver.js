@@ -66,7 +66,12 @@ const resolvers = {
                 return err
             }
         }
-    }
+    },
+    Author: {
+        __resolveReference(author, { Author }) {
+          return Author.findByPk(author.id);
+        },
+      },
 }
 
 export default resolvers;

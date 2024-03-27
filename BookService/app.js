@@ -2,6 +2,7 @@ import 'dotenv/config'
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer} from "@apollo/server/standalone";
+import {buildSubgraphSchema} from '@apollo/subgraph'
 import typeDefs from './graphql/typeDefs.js';
 import resolvers from './graphql/resolvers.js';
 import sequelize from './util/database.js';
@@ -10,8 +11,7 @@ import Reader from './model/Reader.js';
 import BookReader from './model/bookReader.js';
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema : buildSubgraphSchema({typeDefs,resolvers})
 })
 
 // defining relations
